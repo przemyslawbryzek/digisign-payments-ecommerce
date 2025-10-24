@@ -67,8 +67,9 @@ def login():
 @users_bp.route('/api/profile', methods=['GET'])
 @jwt_required()
 def profile():
-    current_user = get_jwt_identity()
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
     return jsonify({
         "message": "Dane profilu użytkownika",
-        "user_id": current_user
+        "email": user.email
     }), 200

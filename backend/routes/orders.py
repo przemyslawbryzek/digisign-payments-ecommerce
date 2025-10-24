@@ -38,7 +38,8 @@ def get_orders():
         {
             "order_id": o.id,
             "total_amount": o.total_amount,
-            "status":o.status
+            "status":o.status,
+            "date":o.created_at
         } for o in orders
     ]), 200
 
@@ -53,7 +54,7 @@ def get_order(order_id):
 
     return jsonify(order.to_dict()), 200
 
-@order_bp.route("/api/order/<int:order_id>/pdf", methods=["GET"])
+@order_bp.route("/api/orders/<int:order_id>/pdf", methods=["GET"])
 @jwt_required()
 def get_pdf(order_id):
     user_id = get_jwt_identity()

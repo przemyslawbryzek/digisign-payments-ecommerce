@@ -5,6 +5,8 @@ import Cart from "./components/Cart"
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import CartPage from "./pages/CartPage";
+import Order from "./pages/Order"
+import ErrorPage from "./pages/ErrorPage";
 import { AuthContext } from "./context/AuthContext";
 import { BsCart2, BsPerson, BsList } from "react-icons/bs";
 import { useState, useEffect, useContext } from "react";
@@ -57,6 +59,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/orders/:id" element={<Order />}/>
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </div>
       {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}

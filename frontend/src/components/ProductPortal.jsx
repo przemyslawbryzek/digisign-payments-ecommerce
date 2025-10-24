@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import {Link} from "react-router-dom";
 import { useState } from "react";
 import { api } from "../api/api";
-
+import ProductImageSlider from "./ImageSlider"
 export default function ProductPortal({ product, onAddToCart, onClose }) {
   if (!product) return null;
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
@@ -16,29 +16,8 @@ export default function ProductPortal({ product, onAddToCart, onClose }) {
             >
             ✕
             </button>
-            <div className="flex flex-row gap-4 h-full">
-                <div className="flex flex-col gap-4">
-                    {product.images.map((img, index) => (
-                        <img
-                            onClick={() => setSelectedImage(img)}
-                            key={index}
-                            src={`http://127.0.0.1:5000${img}`}
-                            alt={`${product.name} ${index + 1}`}
-                            className={`w-30 h-50 object-cover ${
-                                selectedImage==img
-                                ? "border-b-1"
-                                : ""
-                            }`}
-                        />
-                    ))}
-                </div>
-                <div className="">
-                    <img
-                        src={`http://127.0.0.1:5000${selectedImage}`}
-                        className="w-125 h-160 object-cover"
-
-                    />
-                </div>
+            <div className="flex flex-col md:flex-row gap-6 h-full">
+                <ProductImageSlider product={product} />
                 <div className="flex flex-col gap-8 w-75">
                     <h1 className="p-2">{product.name}</h1>
                     <p className="p-2">{product.price} PLN</p>

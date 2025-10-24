@@ -34,10 +34,6 @@ app.register_blueprint(cart_bp)
 app.register_blueprint(order_bp)
 app.register_blueprint(payment_bp)
 
-@app.route('/')
-def index():
-    return "Hello World"
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

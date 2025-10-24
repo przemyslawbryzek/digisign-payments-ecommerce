@@ -1,18 +1,20 @@
 import ReactDOM from "react-dom";
-import { useState, useEffect } from "react";
-import {Link} from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate} from "react-router-dom";
 import { api } from "../api/api";
 import { LuTrash } from "react-icons/lu";
 import  QuantityInput  from "./QuantityInput"
+import { AuthContext } from "../context/AuthContext";
 
 export default function Cart({onClose}){
     const [CartItems, setCartItems] = useState([]);
+    const { isLogged } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const updateQuantity = (id, qty, currentQty) => {
         api.post(
             "/cart",
-            { product_id: id, quantity: qty - currentQty }, 
-            { withCredentials: true }
+            { product_id: id, quantity: qty - currentQty }
         )
         .then(() => api.get("/cart").then((res) => setCartItems(res.data))); 
         };
@@ -72,7 +74,17 @@ export default function Cart({onClose}){
                                     <p>Subtotal</p>
                                     <p>{CartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)+" PLN"}</p>
                                 </div>
-                                <button
+                                <button onClick={() => {
+                                    if (isLogged) {
+                                    api.post("/checkout")
+                                        .then((res) => navigate("/orders/" + res.data.order_id))
+                                        .then(api.delete("/cart"))
+                                        .finally(() => onClose());
+                                    } else {
+                                    navigate("/login");
+                                    onClose();
+                                    }
+                                }}
                                 className="bg-black text-white p-2 hover:bg-white hover:text-black border-1 border-black duration-300 w-full">
                                     Checkout
                                 </button>
@@ -85,7 +97,7 @@ export default function Cart({onClose}){
                                 </button>
                                 <Link onClick={()=>onClose()} 
                                 to="/cart" 
-                                className="border-b-1 hover:border-b-2 w-50 text-center text-xs p-2 text-center">
+                                className="border-b-1 hover:border-b-2 w-50 text-center text-xs p-2">
                                     View Shopping Bag Details
                                 </Link>
                             </div>

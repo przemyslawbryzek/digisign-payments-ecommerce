@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { api } from "../api/api";
 import { LuTrash } from "react-icons/lu";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import  QuantityInput  from "../components/QuantityInput"
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaCcStripe } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
 
 export default function CartPage(){
     const [CartItems, setCartItems] = useState([]);
+    const { isLogged } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const updateQuantity = (id, qty, currentQty) => {
         api.post(
             "/cart",
-            { product_id: id, quantity: qty - currentQty }, 
-            { withCredentials: true }
+            { product_id: id, quantity: qty - currentQty }
         )
         .then(() => api.get("/cart").then((res) => setCartItems(res.data))); 
         };
@@ -22,6 +24,9 @@ export default function CartPage(){
         api.get("/cart").then((res) => setCartItems(res.data));
     }, []);
     return(
+        CartItems.length === 0
+        ? <p className="text-center text-2xl p-20">YOUR SHOPPING BAG IS CURRENTLY EMPTY</p>
+        :(
         <div className="flex flex-col p-5 gap-10">
             <Link to="/"
             className="inline-flex items-center gap-1">
@@ -88,7 +93,11 @@ export default function CartPage(){
                             <p>Estimated Total</p>
                             <p>{CartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)+" PLN"}</p>
                         </div>
-                        <button
+                        <button onClick={() => isLogged
+                            ? api.post("/checkout")
+                            .then((res) => api.delete("/cart").finally(() => navigate("/orders/" + res.data.order_id)))
+                            : navigate("/login")
+                        }
                         className="bg-black text-white p-2 hover:bg-white hover:text-black border-1 border-black duration-300 w-full my-2">
                             Checkout
                         </button>
@@ -98,5 +107,5 @@ export default function CartPage(){
                 </div>
             </div>
         </div>
-    )
+    ))
 }

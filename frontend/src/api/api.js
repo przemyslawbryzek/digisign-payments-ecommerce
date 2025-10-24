@@ -20,6 +20,14 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("token");
     }
+    if (error.response) {
+      const { status, data } = error.response;
+      sessionStorage.setItem("error", JSON.stringify({
+        code: status,
+        message: data.error || data.message || "Unexpected error",
+      }));
+      window.location.href = "/error";
+    }
     return Promise.reject(error);
   }
 );

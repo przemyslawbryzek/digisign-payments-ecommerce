@@ -80,6 +80,7 @@ class OrderItem(db.Model):
             "quantity": self.quantity,
             "price_at_purchase": round(self.price_at_purchase, 2),
             "subtotal": round(self.price_at_purchase * self.quantity, 2),
+            "images": self.product.images() if hasattr(self.product, 'images') else []
         }
     
 class Payment(db.Model):

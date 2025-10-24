@@ -32,8 +32,8 @@ def create_payment_session():
                     "quantity": 1,
                 }
             ],
-            success_url="http://localhost:5173/payment-success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url="http://localhost:5173/payment-cancelled",
+            success_url=f"http://127.0.0.1:3000/orders/{order_id}",
+            cancel_url="http://127.0.0.1:3000/payment-cancelled",
             metadata={"order_id": str(order.id)},
         )
 
