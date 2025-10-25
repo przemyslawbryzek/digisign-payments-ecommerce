@@ -16,7 +16,7 @@ export default function ProductImageSlider({ product }) {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-6 h-full xl:items-center">
+    <div className="flex flex-col xl:flex-row gap-6 h-full">
       <div className="md:flex xl:flex-col gap-3 overflow-x-auto md:overflow-y-auto xl:h-150 xl:w-24 hidden">
         {images.map((img, index) => (
           <img
@@ -33,7 +33,7 @@ export default function ProductImageSlider({ product }) {
         ))}
       </div>
 
-      <div className="relative flex items-center justify-center flex-1">
+      <div className="relative flex  justify-center flex-1">
         <img
           src={images[currentIndex]}
           alt={product.name}
@@ -51,7 +51,7 @@ export default function ProductImageSlider({ product }) {
         >
           <ChevronRight size={24} />
         </button>
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-15 left-1/2 -translate-x-1/2 flex gap-2">
           {images.map((_, index) => (
             <button
               key={index}

@@ -5,20 +5,18 @@ import ProductImageSlider from "../components/ImageSlider"
 export default function Product({onAddToCart}){
     const { id } = useParams();
     const [product, setProduct] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
     const [selectedDescription, setSelectedDescription] = useState(false);
     
     useEffect(() => {
         api.get(`/products/${id}`).then((res) => setProduct(res.data));
     }, [id]);
-    useEffect(() => {
-        if (product.images && product.images.length > 0) {
-            setSelectedImage(product.images[0]);
-        }
-    }, [product]);
     return(
         <div className="flex flex-col md:flex-row justify-center items-centers p-20 gap-8">
+                {product && product.images ? (
                 <ProductImageSlider product={product} />
+                ) : (
+                <p>Loading...</p>
+                )}
                 <div className="flex flex-col gap-8 pl-20 w-100 items-centers justify-center">
                     <h1 className="p-2">{product.name}</h1>
                     <p className="p-2">{product.price} PLN</p>
