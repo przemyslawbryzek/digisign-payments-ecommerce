@@ -15,7 +15,7 @@ export default function Home({ onAddToCart }) {
     <div>
       <h1 className="text-3xl mb-4 text-center ">Produkty</h1>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 p-4">
-        {products.flatMap((p) => Array(9).fill(p)).map((p) => (
+        {products.flatMap((p) => Array(1).fill(p)).map((p) => (
           <div key={p.id} className="">
             <div className="group relative flex flex-col-reverse ">
               <Link to={`/products/${p.id}`} className="duration-300 z-10 group-hover:opacity-0 group-hover:z-0"> 
