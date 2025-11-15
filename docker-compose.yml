@@ -1,0 +1,38 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pteiok-backend
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=production
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/instance:/app/instance
+      - ./backend/pdfs:/app/pdfs
+      - ./backend/static:/app/static
+      - ./backend/certs:/app/certs
+      - ./backend/fonts:/app/fonts
+    networks:
+      - pteiok-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pteiok-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - pteiok-network
+    restart: unless-stopped
+
+networks:
+  pteiok-network:
+    driver: bridge

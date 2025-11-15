@@ -42,7 +42,7 @@ export default function Cart({onClose}){
                             {CartItems.map(item  => (
                             <div key={item.product_id} className="p-6 flex flex-row justify-between">
                                 <img 
-                                    src={`http://127.0.0.1:5000${item.images[0]}`}
+                                    src={`http://localhost:5001${item.images[0]}`}
                                     className="w-25 h-25"
                                 />
                                 <div className="flex flex-col justify-between text-left w-full pl-2">

@@ -19,7 +19,7 @@ export default function Home({ onAddToCart }) {
           <div key={p.id} className="">
             <div className="group relative flex flex-col-reverse ">
               <Link to={`/products/${p.id}`} className="duration-300 z-10 group-hover:opacity-0 group-hover:z-0"> 
-              <img src={`http://127.0.0.1:5000${p.images[0]}`} alt={p.name}
+              <img src={`http://localhost:5001${p.images[0]}`} alt={p.name}
               className="h-auto w-full object-cover" /></Link>
               <button onClick={() => setSelectedProduct(p)}
               className="absolute text-white bg-stone-700 w-full h-1/8">
