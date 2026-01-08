@@ -51,7 +51,7 @@ export default function CartPage(){
                                 <tr className="border-b-1 border-b-stone-300">
                                     <td className="flex flex-row p-4 gap-2 align-top">
                                         <img 
-                                            src={`http://localhost:5001${item.images[0]}`}
+                                            src={`http://localhost:5000${item.images[0]}`}
                                             className="w-25 h-25 hidden xl:block"
                                         />
                                         <Link to={`/products/${item.product_id}`}

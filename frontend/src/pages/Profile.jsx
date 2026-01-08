@@ -9,6 +9,7 @@ export default function Profile(){
     const [orders, setOrders] = useState([]);
     const navigate = useNavigate();
     const { logout } = useContext(AuthContext);
+    const { isAdmin } = useContext(AuthContext);
 
     useEffect(() => {
         Promise.all([
@@ -33,6 +34,9 @@ export default function Profile(){
                 className="bg-black text-white p-2 hover:bg-white hover:text-black border-1 border-black duration-300 w-1/3">
                     Log Out
                 </button>
+                {isAdmin && (
+                    <Link to="/admin" className="ml-4 underline">Admin Dashboard</Link>
+                )}
             </div>
             <div className="flex flex-col w-3/4 gap-6 m-auto">
                 <h1 className="text-xl">Orders</h1>
@@ -56,7 +60,7 @@ export default function Profile(){
                             <td className="py-4 pl-2 text-left align-top">{order.total_amount+" PLN"}</td>
                             <td className="py-4 pl-2 text-left align-top">
                                 {
-                                    order.status ==="paid"
+                                    order.status === "paid" || order.status === "shipped"
                                     ? <button onClick={() => api.get(`/orders/${order.order_id}/pdf`, {responseType: "blob"})
                                     .then((res) => {
                                         const fileURL = window.URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));

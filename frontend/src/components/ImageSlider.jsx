@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 export default function ProductImageSlider({ product }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const images = product.images.map((img) => `http://localhost:5001${img}`);
+  const images = product.images.map((img) => `http://localhost:5000${img}`);
   const total = images.length;
 
   const prevSlide = () => {

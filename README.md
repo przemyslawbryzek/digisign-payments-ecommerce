@@ -5,24 +5,6 @@ digisign-payments-ecommerce to aplikacja webowa umożliwiająca zarządzanie kos
 
 ---
 
-## Funkcjonalności
-
-### Frontend:
-- **Koszyk zakupowy**: Dodawanie, usuwanie i edycja produktów w koszyku
-- **Uwierzytelnianie**: System logowania i rejestracji użytkowników
-- **Zarządzanie zamówieniami**: Historia i szczegóły zamówień
-- **Panel produktów**: Przeglądanie i wyszukiwanie produktów
-- **Integracja płatności**: Obsługa płatności Stripe
-
-### Backend:
-- **API RESTful**: Pełna obsługa endpointów dla produktów, użytkowników, koszyka i zamówień
-- **Generowanie PDF**: Automatyczne tworzenie faktur i dokumentów
-- **Podpis cyfrowy**: Podpisywanie dokumentów PDF kluczem prywatnym
-- **Płatności Stripe**: Integracja z systemem płatności
-- **Baza danych SQLite**: Persystencja danych
-
----
-
 ##  Instalacja i uruchomienie
 
 ###  Wymagania

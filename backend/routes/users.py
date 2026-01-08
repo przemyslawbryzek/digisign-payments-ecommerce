@@ -71,5 +71,6 @@ def profile():
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
         "message": "Dane profilu użytkownika",
-        "email": user.email
+        "email": user.email,
+        "is_admin": bool(user.is_admin)
     }), 200

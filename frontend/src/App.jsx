@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate} from "react-router-dom";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Cart from "./components/Cart"
@@ -7,9 +7,17 @@ import Profile from "./pages/Profile";
 import CartPage from "./pages/CartPage";
 import Order from "./pages/Order"
 import ErrorPage from "./pages/ErrorPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import { AuthContext } from "./context/AuthContext";
 import { BsCart2, BsPerson, BsList } from "react-icons/bs";
 import { useState, useEffect, useContext } from "react";
+
+function RequireAdmin({ children }) {
+  const { isLogged, isAdmin } = useContext(AuthContext);
+  if (!isLogged) return <Navigate to="/login" replace />;
+  if (!isAdmin) return <Navigate to="/" replace />;
+  return children;
+}
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -61,6 +69,7 @@ export default function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/orders/:id" element={<Order />}/>
           <Route path="/error" element={<ErrorPage />} />
+          <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
         </Routes>
       </div>
       {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}
