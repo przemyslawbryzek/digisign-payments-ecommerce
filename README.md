@@ -46,6 +46,10 @@ STRIPE_WEBHOOK_SECRET=whsec_abc...
 
 # Baza danych
 DATABASE_URL=sqlite:///app.db
+
+# Admin user
+ADMIN_EMAIL=admin@admin.com
+ADMIN_PASSWORD=pass
 ```
 
 4. Uruchom aplikację:
@@ -151,7 +155,8 @@ pteiok-projekt/
 │   │   ├── cart.py
 │   │   ├── orders.py
 │   │   ├── payment.py
-│   │   ├── products.py
+│   │   ├── products.py|
+│   │   ├── admin.py
 │   │   └── users.py
 │   ├── utils/             # Narzędzia pomocnicze
 │   │   ├── pdf_generator.py
@@ -196,6 +201,7 @@ pteiok-projekt/
 - **Axios** - HTTP client
 - **Tailwind CSS** - stylowanie
 - **Lucide React** - ikony
+- **react-chartjs** - wykresy
 
 ### DevOps:
 - **Docker** - konteneryzacja
@@ -332,6 +338,40 @@ CVV: dowolne 3 cyfry (np. 123)
 - **POST** `/api/payment/webhook` - Webhook Stripe (obsługa płatności)
   - Headers: `Stripe-Signature: <signature>`
   - Response: `{ "success": true }`
+
+### Admin (`/api/admin`)
+Wszystkie endpointy admina wymagają JWT i uprawnień administratora (`is_admin=true`)
+
+- **GET** `/api/admin/metrics` - Pobierz statystyki platformy
+  - Headers: `Authorization: Bearer <token>`
+  - Response: `{ "total_users": int, "total_orders": int, "pending_orders": int, "paid_orders": int, "revenue": float, "category_sales": array, "top_products": array }`
+
+- **GET** `/api/admin/orders` - Pobierz listę wszystkich zamówień
+  - Headers: `Authorization: Bearer <token>`
+  - Response: `[{ "id": int, "user_id": int, "user_email": string, "status": string, "total_amount": float, "created_at": string, "items": array }]`
+
+- **GET** `/api/admin/orders/<order_id>` - Pobierz szczegóły zamówienia
+  - Headers: `Authorization: Bearer <token>`
+  - Response: `{ "id": int, "user_id": int, "user_email": string, "status": string, "total_amount": float, "created_at": string, "items": array }`
+
+- **PATCH** `/api/admin/orders/<order_id>` - Zaktualizuj status zamówienia
+  - Headers: `Authorization: Bearer <token>`
+  - Body: `{ "status": string }` (pending/paid/cancelled/shipped)
+  - Response: `{ "message": string, "order_id": int, "status": string }`
+
+- **POST** `/api/admin/products` - Utwórz nowy produkt
+  - Headers: `Authorization: Bearer <token>`
+  - Body: `{ "name": string, "description": string, "price": float, "stock": int, "category": string, "image_urls": string }`
+  - Response: `{ "message": string, "id": int }`
+
+- **PUT** `/api/admin/products/<product_id>` - Zaktualizuj produkt
+  - Headers: `Authorization: Bearer <token>`
+  - Body: `{ "name": string, "description": string, "price": float, "stock": int, "category": string, "image_urls": string }` (wszystkie pola opcjonalne)
+  - Response: `{ "message": string }`
+
+- **DELETE** `/api/admin/products/<product_id>` - Usuń produkt
+  - Headers: `Authorization: Bearer <token>`
+  - Response: `{ "message": string }`
 
 ---
 
